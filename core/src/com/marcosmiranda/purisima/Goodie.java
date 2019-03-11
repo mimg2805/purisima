@@ -247,6 +247,6 @@ class Goodie implements Pool.Poolable {
     }
 
     private int GetRandomLocation(int min, int range) {
-        return min + rand.nextInt(range);
+        return min + rand.nextInt(range - min);
     }
 }

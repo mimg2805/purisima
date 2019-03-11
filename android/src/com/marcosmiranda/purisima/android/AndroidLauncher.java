@@ -38,8 +38,11 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 
         // LibGDX Android config
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
-        cfg.hideStatusBar = true;
+        cfg.useAccelerometer = false;
         cfg.useCompass = false;
+        cfg.useGyroscope = false;
+        cfg.useImmersiveMode = true;
+        cfg.useRotationVectorSensor = false;
         cfg.useWakelock = true;
 
         // Initialize ads
@@ -92,7 +95,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 
     private void startAdvertising(AdView adView) {
         AdRequest.Builder adReqBld = new AdRequest.Builder();
-        //adReqBld.addTestDevice("7BCDCD5475C91FCC02388EA59C06D30E");
+        adReqBld.addTestDevice("7BCDCD5475C91FCC02388EA59C06D30E");
         AdRequest adRequest = adReqBld.build();
         adView.loadAd(adRequest);
     }

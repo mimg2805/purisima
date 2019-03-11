@@ -25,6 +25,8 @@ public class Constants {
     static final int EXIT_BUTTON_Y = 30;
 
     // options screen stuff
+    static final int TEXTFIELD_WIDTH = 200;
+    static final int TEXTFIELD_HEIGHT = 50;
     static final float TEXTFIELD_PADDING = 5f;
     static final float CURSOR_WIDTH = 2f;
     static final int CHECKBOX_SIZE = 48;
@@ -60,8 +62,11 @@ public class Constants {
     static final int GOODIE_FALLING_SPEED_SUM = 1;
     static final int GOODIE_FALLING_SPEED_MENU = 3;
     static final int SPAWN_BORDER_SIZE = 20;
-    static final double MOVING_SPEED_SUM = 0.025;
     static final float GOODIE_ROTATION = 2;
+
+    // pouch stuff
+    static final int POUCH_MOVING_SPEED = 600;
+    static final double POUCH_MOVING_SPEED_SUM = 0.025;
 
     // points
     static final int MENTA_POINTS = 10;

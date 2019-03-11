@@ -14,7 +14,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
@@ -24,15 +30,48 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import java.util.Random;
 
-import static com.marcosmiranda.purisima.Constants.*;
-import static com.marcosmiranda.purisima.Utility.*;
+import static com.marcosmiranda.purisima.Constants.DEFAULT_VOLUME;
+import static com.marcosmiranda.purisima.Constants.DIALOG_BUTTON_HEIGHT;
+import static com.marcosmiranda.purisima.Constants.DIALOG_BUTTON_WIDTH;
+import static com.marcosmiranda.purisima.Constants.DIALOG_BUTTON_Y;
+import static com.marcosmiranda.purisima.Constants.EXPLOSION_ANIMATION_COLS;
+import static com.marcosmiranda.purisima.Constants.EXPLOSION_ANIMATION_ROWS;
+import static com.marcosmiranda.purisima.Constants.FRAME_RATE;
+import static com.marcosmiranda.purisima.Constants.GOODIE_FALLING_SPEED;
+import static com.marcosmiranda.purisima.Constants.GOODIE_FALLING_SPEED_SUM;
+import static com.marcosmiranda.purisima.Constants.GOODIE_MAX_FALLING_SPEED;
+import static com.marcosmiranda.purisima.Constants.GOODIE_SPAWN_DELAY;
+import static com.marcosmiranda.purisima.Constants.GOODIE_SPAWN_DELAY_SUM;
+import static com.marcosmiranda.purisima.Constants.HI_SCORE_LOCATION_X;
+import static com.marcosmiranda.purisima.Constants.HI_SCORE_LOCATION_Y;
+import static com.marcosmiranda.purisima.Constants.HI_SCORE_PREFIX;
+import static com.marcosmiranda.purisima.Constants.LEVEL_MESSAGE_LOCATION_X;
+import static com.marcosmiranda.purisima.Constants.LEVEL_MESSAGE_LOCATION_Y;
+import static com.marcosmiranda.purisima.Constants.NAME_LOCATION_X;
+import static com.marcosmiranda.purisima.Constants.NAME_LOCATION_Y;
+import static com.marcosmiranda.purisima.Constants.PAUSE_BUTTON_HEIGHT;
+import static com.marcosmiranda.purisima.Constants.PAUSE_BUTTON_POSITION_X;
+import static com.marcosmiranda.purisima.Constants.PAUSE_BUTTON_POSITION_Y;
+import static com.marcosmiranda.purisima.Constants.PAUSE_BUTTON_WIDTH;
+import static com.marcosmiranda.purisima.Constants.PAUSE_CONTINUE_BUTTON_X;
+import static com.marcosmiranda.purisima.Constants.PAUSE_EXIT_BUTTON_X;
+import static com.marcosmiranda.purisima.Constants.SCORE_LOCATION_X;
+import static com.marcosmiranda.purisima.Constants.SCORE_LOCATION_Y;
+import static com.marcosmiranda.purisima.Constants.SCORE_PREFIX;
+import static com.marcosmiranda.purisima.Constants.SPEEDUP_DELAY;
+import static com.marcosmiranda.purisima.Constants.VIBRATE_MILLISECONDS;
+import static com.marcosmiranda.purisima.Constants.VOLUME_DIVIDER;
+import static com.marcosmiranda.purisima.Constants.WINDOW_HEIGHT;
+import static com.marcosmiranda.purisima.Constants.WINDOW_WIDTH;
+import static com.marcosmiranda.purisima.Utility.clear;
+import static com.marcosmiranda.purisima.Utility.selectMusic;
 
 class GameScreen implements Screen {
     private final Purisima game;
     private final Button pauseButton;
     private final ImageTextButton continueBtn, exitBtn;
     private final Preferences prefs;
-    private boolean vibrator;
+    private boolean vibrator, explosionSoundPlayed;
     private final Stage stage;
     private final Pouch pouch;
     private final Texture bgImg;
@@ -55,7 +94,7 @@ class GameScreen implements Screen {
     GameScreen(final Purisima purisima) {
         game = purisima;
         game.adsController.hideBannerAd();
-        game.gameState = GameState.RUNNING;
+        game.state = GameState.RUNNING;
         shapeRenderer = new ShapeRenderer();
 
         // Randomly choose an explosion sound
@@ -74,7 +113,7 @@ class GameScreen implements Screen {
                 break;
         }
         explosionSound = game.assets.get(filePath, Sound.class);
-
+        explosionSoundPlayed = false;
 
         final Skin skin = new Skin();
         stage = new Stage(new StretchViewport(WINDOW_WIDTH, WINDOW_HEIGHT));
@@ -88,6 +127,7 @@ class GameScreen implements Screen {
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
         skin.add(pixmapName, new Texture(pixmap));
+        pixmap.dispose();
 
         // Rounded rectangle button
         Image btnImage = new Image(game.assets.get("sprites/button.png", Texture.class));
@@ -191,7 +231,7 @@ class GameScreen implements Screen {
                 boolean resume = Boolean.parseBoolean(result.toString());
                 if (resume) resume();
                 else {
-                    game.gameState = GameState.MENU;
+                    game.state = GameState.MENU;
                     if (game.adsController.isWifiOn()) game.adsController.showBannerAd();
                     game.setScreen(new MainMenuScreen(game));
                 }
@@ -235,7 +275,7 @@ class GameScreen implements Screen {
         game.batch.draw(bgImg, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         comic16.setColor(Color.WHITE);
 
-        switch (game.gameState) {
+        switch (game.state) {
             case RUNNING:
 
                 if (pouch.active) {
@@ -253,10 +293,10 @@ class GameScreen implements Screen {
                             PopUpString points = messagePool.obtain();
                             points.init(goodie);
                             messages.add(points);
-
                             score += goodie.points;
+
                             if (goodie.deadly) { // If you grab a deadly goodie, you lose
-                                game.gameState = GameState.GAMEOVER;
+                                game.state = GameState.GAMEOVER;
                             }
                         } else if (goodie.y < -goodie.sprite.getHeight()) {
                             goodie.points = goodie.points / -2;
@@ -271,7 +311,7 @@ class GameScreen implements Screen {
 
                         if (score < 0) { // If you lose points while on 0 points, you lose
                             score = 0;
-                            game.gameState = GameState.GAMEOVER;
+                            game.state = GameState.GAMEOVER;
                         } else if (score > hiScore) hiScore = score;
                     }
                 }
@@ -343,7 +383,12 @@ class GameScreen implements Screen {
                 pouch.active = false;
                 animationTime += delta;
                 if (game.music.isPlaying()) game.music.stop();
-                if (musicEnabled) explosionSound.play();
+                if (musicEnabled && !explosionSoundPlayed) {
+                    explosionSound.play();
+                    explosionSoundPlayed = true;
+                }
+
+                // Play explosion animation
                 TextureRegion currentFrame = explosionAnimation.getKeyFrame(animationTime, false);
                 if (explosionAnimation.isAnimationFinished(animationTime)) {
                     prefs.putInteger("hiScore", hiScore);
@@ -387,7 +432,7 @@ class GameScreen implements Screen {
 
         if (pauseDialog.isVisible()) {
             pauseButton.setVisible(false);
-            game.gameState = GameState.PAUSE;
+            game.state = GameState.PAUSE;
         }
 
     }
@@ -398,17 +443,23 @@ class GameScreen implements Screen {
         pauseDialog.setVisible(false);
         if (!pauseDialog.isVisible()) {
             pauseButton.setVisible(true);
-            game.gameState = GameState.RUNNING;
+            game.state = GameState.RUNNING;
         }
     }
 
     @Override
     public void dispose() {
         prefs.flush();
+
         bgImg.dispose();
+
         comic16.dispose();
         comic24.dispose();
+
+        goodies.clear();
         goodiePool.clear();
+
+        messages.clear();
         messagePool.clear();
     }
 }

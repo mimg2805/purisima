@@ -11,7 +11,7 @@ public class Purisima extends Game {
     AssetManager assets;
     SpriteBatch batch;
     OrthographicCamera camera;
-    GameState gameState;
+    GameState state;
     Music music;
     AdsController adsController;
 
@@ -28,11 +28,6 @@ public class Purisima extends Game {
         music = Utility.selectMusic();
 
         this.setScreen(new LoadingScreen(this));
-    }
-
-    @Override
-    public void render() {
-        super.render();
     }
 
     @Override

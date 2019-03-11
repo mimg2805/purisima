@@ -18,7 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
-import static com.marcosmiranda.purisima.Utility.*;
+import static com.marcosmiranda.purisima.Utility.clear;
+import static com.marcosmiranda.purisima.Utility.createFonts;
+import static com.marcosmiranda.purisima.Utility.setBackColor;
 
 class LoadingScreen implements Screen {
 
@@ -28,7 +30,7 @@ class LoadingScreen implements Screen {
     private final Skin skin;
     private Preferences prefs;
     private int progress = 0;
-    private final Label progressLabel;
+    private final Label progressLbl;
 
     LoadingScreen(final Purisima purisima) {
         // Store the passed game instance for later use
@@ -132,9 +134,9 @@ class LoadingScreen implements Screen {
         loadingLabel.setPosition(310, 200);
         stage.addActor(loadingLabel);
 
-        progressLabel = new Label(progress + "%", skin, "default");
-        progressLabel.setPosition(450, 200);
-        stage.addActor(progressLabel);
+        progressLbl = new Label(progress + "%", skin, "default");
+        progressLbl.setPosition(450, 200);
+        stage.addActor(progressLbl);
     }
 
     @Override
@@ -145,7 +147,7 @@ class LoadingScreen implements Screen {
 
         if (!assets.update()) {
             progress = (int) (assets.getProgress() * 100f);
-            progressLabel.setText(progress + "%");
+            progressLbl.setText(progress + "%");
         } else {
             prefs = Gdx.app.getPreferences("purisima");
             String playerName = prefs.getString("playerName", "");

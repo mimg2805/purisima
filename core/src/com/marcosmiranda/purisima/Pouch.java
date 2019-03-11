@@ -8,17 +8,20 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-import static com.marcosmiranda.purisima.Constants.*;
+import static com.marcosmiranda.purisima.Constants.POUCH_MOVING_SPEED;
+import static com.marcosmiranda.purisima.Constants.POUCH_MOVING_SPEED_SUM;
+import static com.marcosmiranda.purisima.Constants.WINDOW_HEIGHT;
+import static com.marcosmiranda.purisima.Constants.WINDOW_HEIGHT_HALF;
+import static com.marcosmiranda.purisima.Constants.WINDOW_WIDTH;
 
 class Pouch {
 
     boolean active = true;
     Sprite sprite;
     Rectangle rect;
-    private final int bagImgWidth;
+    private final float bagImgWidth;
     private final Rectangle clickArea;
     private double accel;
-    private final double movingSpeed;
     private Vector3 touchPos;
 
     Pouch(final AssetManager gameAssets) {
@@ -32,25 +35,28 @@ class Pouch {
         );
         clickArea = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT_HALF);
         touchPos = new Vector3();
-        movingSpeed = 500;
         accel = 1f;
     }
 
     void update(OrthographicCamera camera) {
         double delta = Gdx.graphics.getDeltaTime();
 
-        if (active) {
-            // Move by touching the screen
-            for (int i = 0; i < 20; i++) {
+        if (active) { // Move by touching the screen
+            for (int i = 0; i < 2; i++) {
                 if (Gdx.input.isTouched(i)) {
                     touchPos.set(Gdx.input.getX(i), Gdx.input.getY(i), 0);
                     camera.unproject(touchPos);
+
                     if (clickArea.contains(touchPos.x, touchPos.y)) {
-                        accel += MOVING_SPEED_SUM; // Moves gradually faster
-                        if (touchPos.x < rect.x) { // If you touch left of the bag, you move to the left
-                            rect.x -= movingSpeed * accel * delta;
-                        } else { //if (touchPos.x > rect.x) { // If you touch to the right, you move to the right
-                            rect.x += movingSpeed * accel * delta;
+                        accel += POUCH_MOVING_SPEED_SUM; // Moves gradually faster
+
+                        if (rect.x != touchPos.x - (bagImgWidth)) {
+
+                            if (rect.x > touchPos.x) { // If you touch left, you move to the left
+                                rect.x -= POUCH_MOVING_SPEED * accel * delta;
+                            } else if (rect.x < touchPos.x - (bagImgWidth)) { // If you touch right, you move to the right
+                                rect.x += POUCH_MOVING_SPEED * accel * delta;
+                            }
                         }
                     }
                 } else {

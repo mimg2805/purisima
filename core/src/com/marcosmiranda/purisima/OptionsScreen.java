@@ -9,14 +9,35 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
-import static com.marcosmiranda.purisima.Constants.*;
-import static com.marcosmiranda.purisima.Utility.*;
+import static com.marcosmiranda.purisima.Constants.BACK_COLOR;
+import static com.marcosmiranda.purisima.Constants.BUTTON_HEIGHT;
+import static com.marcosmiranda.purisima.Constants.BUTTON_WIDTH;
+import static com.marcosmiranda.purisima.Constants.CURSOR_WIDTH;
+import static com.marcosmiranda.purisima.Constants.DEFAULT_VOLUME;
+import static com.marcosmiranda.purisima.Constants.EXIT_BUTTON_Y;
+import static com.marcosmiranda.purisima.Constants.FRAME_RATE;
+import static com.marcosmiranda.purisima.Constants.MAIN_MENU_BUTTON_X;
+import static com.marcosmiranda.purisima.Constants.SMALL_BUTTON_SIZE;
+import static com.marcosmiranda.purisima.Constants.TEXTFIELD_PADDING;
+import static com.marcosmiranda.purisima.Constants.VOLUME_DIVIDER;
+import static com.marcosmiranda.purisima.Constants.WINDOW_HEIGHT;
+import static com.marcosmiranda.purisima.Constants.WINDOW_WIDTH;
+import static com.marcosmiranda.purisima.Utility.clear;
+import static com.marcosmiranda.purisima.Utility.setBackColor;
 
 class OptionsScreen implements Screen {
 
@@ -74,10 +95,10 @@ class OptionsScreen implements Screen {
         final BitmapFont comic18 = game.assets.get("comic18.ttf", BitmapFont.class);
         final Label.LabelStyle defaultLblStyle = new Label.LabelStyle(arial16, Color.WHITE);
         final Label.LabelStyle optionsLblStyle = new Label.LabelStyle(comic18, Color.WHITE);
-        final Label.LabelStyle errorLblStyle = new Label.LabelStyle(comic16, Color.RED);
+        final Label.LabelStyle resultLblStyle = new Label.LabelStyle(comic16, Color.WHITE);
         skin.add("default", defaultLblStyle);
         skin.add("options", optionsLblStyle);
-        skin.add("error", errorLblStyle);
+        skin.add("result", resultLblStyle);
 
         final ImageTextButton.ImageTextButtonStyle playerOptsBtnStyle = new ImageTextButton.ImageTextButtonStyle();
         playerOptsBtnStyle.up = skin.newDrawable(btnDrawable, Color.LIGHT_GRAY);
@@ -142,16 +163,16 @@ class OptionsScreen implements Screen {
 
         // Change player name row
         final Label playerNameLbl = new Label("Nombre del jugador: ", skin, "options");
-        playerNameLbl.setPosition(50, 255);
+        playerNameLbl.setPosition(50, 265);
         stage.addActor(playerNameLbl);
 
-        final Label errorLbl = new Label("ERROR:\nEl campo no puede estar vacío.", skin, "error");
-        errorLbl.setPosition(510, 240);
-        errorLbl.setVisible(false);
-        stage.addActor(errorLbl);
+        final Label resultLbl = new Label("", skin, "result");
+        resultLbl.setPosition(50, 230);
+        resultLbl.setVisible(false);
+        stage.addActor(resultLbl);
 
         final TextField playerNameTxtField = new TextField(playerName, skin, "playerNameTxtField");
-        playerNameTxtField.setSize(150, 35);
+        playerNameTxtField.setSize(Constants.TEXTFIELD_WIDTH, Constants.TEXTFIELD_HEIGHT);
         playerNameTxtField.setPosition(270, 250);
         stage.addActor(playerNameTxtField);
 
@@ -159,16 +180,21 @@ class OptionsScreen implements Screen {
         final ImageButton saveBtn = new ImageButton(greenBtnStyle);
         saveBtn.add(saveBtnIcon);
         saveBtn.setSize(SMALL_BUTTON_SIZE, SMALL_BUTTON_SIZE);
-        saveBtn.setPosition(450, 240);
+        saveBtn.setPosition(480, 250);
         saveBtn.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 playerName = playerNameTxtField.getText();
                 if (playerName.equals("")) {
-                    errorLbl.setVisible(true);
+                    resultLbl.setText("ERROR: El campo no puede estar vacío.");
+                    resultLbl.setColor(Color.RED);
+                    resultLbl.setVisible(true);
                 } else {
                     prefs.putString("playerName", playerName);
                     prefs.flush();
-                    errorLbl.setVisible(false);
+                    resultLbl.setText("¡Guardado!");
+                    resultLbl.setColor(Color.GREEN);
+                    resultLbl.setVisible(true);
+
                 }
             }
         });
@@ -187,7 +213,7 @@ class OptionsScreen implements Screen {
         final ImageButton eraseBtn = new ImageButton(redBtnStyle);
         eraseBtn.add(eraseBtnIcon);
         eraseBtn.setSize(SMALL_BUTTON_SIZE, SMALL_BUTTON_SIZE);
-        eraseBtn.setPosition(450, 165);
+        eraseBtn.setPosition(480, 165);
         eraseBtn.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 hiScore = 0;
@@ -333,7 +359,7 @@ class OptionsScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 playerNameLbl.setVisible(false);
                 playerNameTxtField.setVisible(false);
-                errorLbl.setVisible(false);
+                resultLbl.setVisible(false);
                 saveBtn.setVisible(false);
                 hiScoreTxtLbl.setVisible(false);
                 hiScoreLbl.setVisible(false);

@@ -8,19 +8,19 @@ buildscript {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.android.tools.build:gradle:3.3.2'
     }
 }
 
 allprojects {
     apply plugin: "idea"
 
-    version = '1.0'
-    //version = '1.0b-' + getDate()
+    version = '1.1'
+    //version = '1.1-' + getDate()
     ext {
         appName = "purisima"
-        //gdxVersion = '1.9.8'
-        gdxVersion = '1.9.9-SNAPSHOT'
+        gdxVersion = '1.9.9'
+        //gdxVersion = '1.9.10-SNAPSHOT'
         //roboVMVersion = '2.3.5'
         //box2DLightsVersion = '1.5'
         //ashleyVersion = '1.7.2'
@@ -89,10 +89,10 @@ project(":core") {
         implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
-        //implementation "org.mini2Dx:universal-tween-engine:6.3.3"
+        implementation "org.mini2Dx:universal-tween-engine:6.3.3"
     }
 }
 
-static def getDate() {
+/*static def getDate() {
     return new Date().format('yyyyMMdd')
-}
+}*/

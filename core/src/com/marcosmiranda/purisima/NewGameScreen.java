@@ -10,13 +10,30 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
-import static com.marcosmiranda.purisima.Constants.*;
-import static com.marcosmiranda.purisima.Utility.*;
+import static com.marcosmiranda.purisima.Constants.BACK_COLOR;
+import static com.marcosmiranda.purisima.Constants.BUTTON_HEIGHT;
+import static com.marcosmiranda.purisima.Constants.BUTTON_WIDTH;
+import static com.marcosmiranda.purisima.Constants.CHECKBOX_SIZE;
+import static com.marcosmiranda.purisima.Constants.CURSOR_WIDTH;
+import static com.marcosmiranda.purisima.Constants.DEFAULT_VOLUME;
+import static com.marcosmiranda.purisima.Constants.EXIT_BUTTON_Y;
+import static com.marcosmiranda.purisima.Constants.FRAME_RATE;
+import static com.marcosmiranda.purisima.Constants.MAIN_MENU_BUTTON_X;
+import static com.marcosmiranda.purisima.Constants.TEXTFIELD_PADDING;
+import static com.marcosmiranda.purisima.Constants.WINDOW_HEIGHT;
+import static com.marcosmiranda.purisima.Constants.WINDOW_WIDTH;
+import static com.marcosmiranda.purisima.Utility.clear;
+import static com.marcosmiranda.purisima.Utility.setBackColor;
 
 class NewGameScreen implements Screen {
 
@@ -101,11 +118,11 @@ class NewGameScreen implements Screen {
         stage.addActor(headerLabel);
 
         final Label playerNameLabel = new Label("Nombre del jugador: ", skin, "default");
-        playerNameLabel.setPosition(210, 275);
+        playerNameLabel.setPosition(210, 285);
         stage.addActor(playerNameLabel);
 
         final TextField playerNameTextField = new TextField(null, skin, "playerName");
-        playerNameTextField.setSize(200, 35);
+        playerNameTextField.setSize(Constants.TEXTFIELD_WIDTH, Constants.TEXTFIELD_HEIGHT);
         playerNameTextField.setPosition(420, 270);
         stage.addActor(playerNameTextField);
 

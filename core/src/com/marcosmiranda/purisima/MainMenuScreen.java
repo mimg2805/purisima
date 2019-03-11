@@ -18,7 +18,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
-import static com.marcosmiranda.purisima.Utility.*;
+import static com.marcosmiranda.purisima.Utility.clear;
+import static com.marcosmiranda.purisima.Utility.setBackColor;
 
 class MainMenuScreen implements Screen {
 
@@ -35,7 +36,7 @@ class MainMenuScreen implements Screen {
     MainMenuScreen(final Purisima purisima) {
         // Store the passed game instance for later use
         game = purisima;
-        game.gameState = GameState.MENU;
+        game.state = GameState.MENU;
 
         // Create the appropriate objects for drawing
         skin = new Skin();
@@ -46,8 +47,11 @@ class MainMenuScreen implements Screen {
 
         // Get fonts from the asset manager
         BitmapFont arial16 = game.assets.get("arial16.ttf", BitmapFont.class);
+        BitmapFont arial18 = game.assets.get("arial18.ttf", BitmapFont.class);
         Label.LabelStyle defaultLblStyle = new Label.LabelStyle(arial16, Color.WHITE);
+        Label.LabelStyle sosLblStyle = new Label.LabelStyle(arial18, Color.WHITE);
         skin.add("default", defaultLblStyle);
+        skin.add("sos", sosLblStyle);
 
         // Rounded rectangle button
         Image btnImage = new Image(game.assets.get("sprites/button.png", Texture.class));
@@ -168,7 +172,7 @@ class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        if (game.gameState.equals(GameState.MENU)) {
+        if (game.state.equals(GameState.MENU)) {
             clear();
             game.camera.update();
             game.batch.setProjectionMatrix(game.camera.combined);
@@ -197,6 +201,9 @@ class MainMenuScreen implements Screen {
                 if (goodie.active) {
                     goodie.sprite.draw(game.batch);
                     goodie.update();
+                    if (goodie.y < -goodie.sprite.getHeight()) {
+                        goodie.active = false;
+                    }
                 }
             }
 

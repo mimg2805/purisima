@@ -17,8 +17,21 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
-import static com.marcosmiranda.purisima.Constants.*;
-import static com.marcosmiranda.purisima.Utility.*;
+import static com.marcosmiranda.purisima.Constants.BACK_COLOR;
+import static com.marcosmiranda.purisima.Constants.BUTTON_HEIGHT;
+import static com.marcosmiranda.purisima.Constants.BUTTON_WIDTH;
+import static com.marcosmiranda.purisima.Constants.DEFAULT_VOLUME;
+import static com.marcosmiranda.purisima.Constants.EXIT_BUTTON_Y;
+import static com.marcosmiranda.purisima.Constants.FRAME_RATE;
+import static com.marcosmiranda.purisima.Constants.MAIN_MENU_BUTTON_X;
+import static com.marcosmiranda.purisima.Constants.NEW_HI_SCORE_BLINK_DELAY;
+import static com.marcosmiranda.purisima.Constants.VOLUME_DIVIDER;
+import static com.marcosmiranda.purisima.Constants.WINDOW_HEIGHT;
+import static com.marcosmiranda.purisima.Constants.WINDOW_HEIGHT_HALF;
+import static com.marcosmiranda.purisima.Constants.WINDOW_WIDTH;
+import static com.marcosmiranda.purisima.Constants.WINDOW_WIDTH_HALF;
+import static com.marcosmiranda.purisima.Utility.clear;
+import static com.marcosmiranda.purisima.Utility.setBackColor;
 
 class GameOverScreen implements Screen {
 
@@ -34,7 +47,7 @@ class GameOverScreen implements Screen {
         // Store the passed game instance for later use
         game = purisima;
         if (game.adsController.isWifiOn()) game.adsController.showBannerAd();
-        game.gameState = GameState.GAMEOVER;
+        game.state = GameState.GAMEOVER;
         score = gameScore;
         gameOverSound = Gdx.audio.newMusic(Gdx.files.internal("sound/gameover.wav"));
         Preferences prefs = Gdx.app.getPreferences("purisima");
