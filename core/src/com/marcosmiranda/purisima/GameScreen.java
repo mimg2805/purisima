@@ -71,7 +71,8 @@ class GameScreen implements Screen {
     private final Button pauseButton;
     private final ImageTextButton continueBtn, exitBtn;
     private final Preferences prefs;
-    private boolean vibrator, explosionSoundPlayed;
+    private final boolean vibrator;
+    private boolean explosionSoundPlayed;
     private final Stage stage;
     private final Pouch pouch;
     private final Texture bgImg;

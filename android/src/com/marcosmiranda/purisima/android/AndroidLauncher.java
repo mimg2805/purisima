@@ -8,7 +8,6 @@ import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -25,9 +24,9 @@ import com.marcosmiranda.purisima.Purisima;
 
 public class AndroidLauncher extends AndroidApplication implements AdsController {
 
-    private static final String APP_ID = "ca-app-pub-1385681571936835~6206815622";
-    private static final String AD_UNIT_ID = "ca-app-pub-1385681571936835/3442843493";
-    //private static final String AD_UNIT_TEST_ID = "ca-app-pub-3940256099942544/6300978111"; // Test
+    private static final String APP_ID = "ca-app-pub-2838402743054690~1213936759";
+    private static final String AD_UNIT_ID = "ca-app-pub-2838402743054690/7915076470";
+    // private static final String AD_UNIT_TEST_ID = "ca-app-pub-3940256099942544/6300978111"; // Test
     protected AdView adView;
     protected View gameView;
     int backColor = Color.rgb(0, 26, 99);
@@ -47,6 +46,13 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 
         // Initialize ads
         MobileAds.initialize(this, APP_ID);
+        /*
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+            }
+        });
+        */
 
         // Do the stuff that initialize() would do for you
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -65,14 +71,15 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
         setContentView(layout);
         startAdvertising(admobView);
 
-        //initialize(new Purisima(), config);
+        // initialize(new Purisima(), cfg);
     }
 
     private AdView createAdView() {
         adView = new AdView(this);
         adView.setAdSize(AdSize.SMART_BANNER);
+        // adView.setAdSize(AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, 800));
         adView.setAdUnitId(AD_UNIT_ID);
-        //adView.setAdUnitId(AD_UNIT_TEST_ID);
+        // adView.setAdUnitId(AD_UNIT_TEST_ID);
         int id = 12345;
         adView.setId(id); // this is an arbitrary id, allows for relative positioning in createGameView()
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -95,7 +102,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 
     private void startAdvertising(AdView adView) {
         AdRequest.Builder adReqBld = new AdRequest.Builder();
-        adReqBld.addTestDevice("7BCDCD5475C91FCC02388EA59C06D30E");
+        adReqBld.addTestDevice("BE89C404157C24CCDB17A860A9B5B878");
         AdRequest adRequest = adReqBld.build();
         adView.loadAd(adRequest);
     }
@@ -127,6 +134,12 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
                 adView.setVisibility(View.VISIBLE);
             }
         });
+        /*
+        runOnUiThread(() -> {
+            startAdvertising(adView);
+            adView.setVisibility(View.VISIBLE);
+        });
+        */
     }
 
     @Override
@@ -135,9 +148,15 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
             @Override
             public void run() {
                 adView.setVisibility(View.INVISIBLE);
-                //adView.setVisibility(View.GONE);
+                // adView.setVisibility(View.GONE);
             }
         });
+        /*
+        runOnUiThread(() -> {
+            adView.setVisibility(View.INVISIBLE);
+            //adView.setVisibility(View.GONE);
+        });
+        */
     }
 
     @Override
@@ -146,11 +165,11 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         if (Build.VERSION.SDK_INT <= 23) {
             return (activeNetwork != null && activeNetwork.isConnected());
-            //return activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
+            // return activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
         } else {
             Network network = cm.getActiveNetwork();
             NetworkCapabilities nc = cm.getNetworkCapabilities(network);
-            Log.e("WiFi", String.valueOf(nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)));
+            // Log.e("WiFi", String.valueOf(nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)));
             return nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
         }
     }
