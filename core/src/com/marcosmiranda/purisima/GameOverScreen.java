@@ -38,7 +38,7 @@ class GameOverScreen implements Screen {
     private final Purisima game;
     private final Stage stage;
     private final Skin skin;
-    private int score, hiScore;
+    private final int score, hiScore;
     private double newHiScoreBlink;
     private final Label newHiScoreLbl;
     private final Music gameOverSound;
@@ -46,7 +46,7 @@ class GameOverScreen implements Screen {
     GameOverScreen(final Purisima purisima, final int gameScore) {
         // Store the passed game instance for later use
         game = purisima;
-        if (game.adsController.isWifiOn()) game.adsController.showBannerAd();
+        if (game.adsController.isWifiOn() || game.adsController.isDataOn()) game.adsController.showBannerAd();
         game.state = GameState.GAMEOVER;
         score = gameScore;
         gameOverSound = Gdx.audio.newMusic(Gdx.files.internal("sound/gameover.wav"));

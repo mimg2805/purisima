@@ -165,12 +165,23 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         if (Build.VERSION.SDK_INT <= 23) {
             return (activeNetwork != null && activeNetwork.isConnected());
-            // return activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
         } else {
             Network network = cm.getActiveNetwork();
             NetworkCapabilities nc = cm.getNetworkCapabilities(network);
-            // Log.e("WiFi", String.valueOf(nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)));
-            return nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
+            return nc != null && nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
+        }
+    }
+
+    @Override
+    public boolean isDataOn() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (Build.VERSION.SDK_INT <= 23) {
+            return (activeNetwork != null && activeNetwork.isConnected());
+        } else {
+            Network network = cm.getActiveNetwork();
+            NetworkCapabilities nc = cm.getNetworkCapabilities(network);
+            return nc != null && nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR);
         }
     }
 }

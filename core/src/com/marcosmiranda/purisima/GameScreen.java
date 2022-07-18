@@ -233,7 +233,7 @@ class GameScreen implements Screen {
                 if (resume) resume();
                 else {
                     game.state = GameState.MENU;
-                    if (game.adsController.isWifiOn()) game.adsController.showBannerAd();
+                    if (game.adsController.isWifiOn() || game.adsController.isDataOn()) game.adsController.showBannerAd();
                     game.setScreen(new MainMenuScreen(game));
                 }
             }

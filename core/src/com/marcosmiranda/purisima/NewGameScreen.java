@@ -38,9 +38,9 @@ import static com.marcosmiranda.purisima.Utility.setBackColor;
 class NewGameScreen implements Screen {
 
     private final Purisima game;
-    private Stage stage;
-    private Skin skin;
-    private Preferences prefs;
+    private final Stage stage;
+    private final Skin skin;
+    private final Preferences prefs;
     private String playerName;
     private boolean music;
 
@@ -50,11 +50,12 @@ class NewGameScreen implements Screen {
         setBackColor(BACK_COLOR);
 
         // Show ads, if there's WiFi
-        //if(game.adsController.isWifiOn()) game.adsController.showBannerAd();
+        // if (game.adsController.isWifiOn() || game.adsController.isDataOn()) game.adsController.showBannerAd();
 
         // Get the player preferences
         prefs = Gdx.app.getPreferences("purisima");
         music = prefs.getBoolean("music", true);
+        playerName = prefs.getString("playerName", "JUGADOR");
 
         // Create the appropiate objects for drawing
         skin = new Skin();
@@ -124,6 +125,7 @@ class NewGameScreen implements Screen {
         final TextField playerNameTextField = new TextField(null, skin, "playerName");
         playerNameTextField.setSize(Constants.TEXTFIELD_WIDTH, Constants.TEXTFIELD_HEIGHT);
         playerNameTextField.setPosition(420, 270);
+        playerNameTextField.setText(playerName);
         stage.addActor(playerNameTextField);
 
         final Label errorLabel = new Label("ERROR: Tu nombre no puede estar vacío.", skin, "error");
