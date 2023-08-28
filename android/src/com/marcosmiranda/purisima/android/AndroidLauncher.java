@@ -1,24 +1,28 @@
 package com.marcosmiranda.purisima.android;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
-import android.os.Build;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
+import java.util.ArrayList;
 
-import com.badlogic.gdx.backends.android.AndroidApplication;
-import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.RequestConfiguration;
+
+import com.badlogic.gdx.backends.android.AndroidApplication;
+import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+
 import com.marcosmiranda.purisima.AdsController;
 import com.marcosmiranda.purisima.Purisima;
 
@@ -45,14 +49,8 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
         cfg.useWakelock = true;
 
         // Initialize ads
-        MobileAds.initialize(this, APP_ID);
-        /*
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
-            }
-        });
-        */
+        // MobileAds.initialize(this);
+        MobileAds.initialize(this, initializationStatus -> {});
 
         // Do the stuff that initialize() would do for you
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -76,7 +74,7 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 
     private AdView createAdView() {
         adView = new AdView(this);
-        adView.setAdSize(AdSize.SMART_BANNER);
+        adView.setAdSize(AdSize.BANNER);
         // adView.setAdSize(AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, 800));
         adView.setAdUnitId(AD_UNIT_ID);
         // adView.setAdUnitId(AD_UNIT_TEST_ID);
@@ -101,10 +99,15 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
     }
 
     private void startAdvertising(AdView adView) {
-        AdRequest.Builder adReqBld = new AdRequest.Builder();
-        adReqBld.addTestDevice("BE89C404157C24CCDB17A860A9B5B878");
-        AdRequest adRequest = adReqBld.build();
-        adView.loadAd(adRequest);
+        ArrayList<String> testDevices = new ArrayList<>();
+        testDevices.add("BE89C404157C24CCDB17A860A9B5B878");
+
+        RequestConfiguration reqConf = new RequestConfiguration.Builder()
+                .setTestDeviceIds(testDevices)
+                .build();
+        MobileAds.setRequestConfiguration(reqConf);
+
+        adView.loadAd(new AdRequest.Builder().build());
     }
 
     @Override
@@ -127,61 +130,38 @@ public class AndroidLauncher extends AndroidApplication implements AdsController
 
     @Override
     public void showBannerAd() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                startAdvertising(adView);
-                adView.setVisibility(View.VISIBLE);
-            }
-        });
-        /*
         runOnUiThread(() -> {
             startAdvertising(adView);
             adView.setVisibility(View.VISIBLE);
         });
-        */
     }
 
     @Override
     public void hideBannerAd() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                adView.setVisibility(View.INVISIBLE);
-                // adView.setVisibility(View.GONE);
-            }
-        });
-        /*
         runOnUiThread(() -> {
             adView.setVisibility(View.INVISIBLE);
-            //adView.setVisibility(View.GONE);
+            // adView.setVisibility(View.GONE);
         });
-        */
     }
 
     @Override
     public boolean isWifiOn() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        if (Build.VERSION.SDK_INT <= 23) {
-            return (activeNetwork != null && activeNetwork.isConnected());
-        } else {
-            Network network = cm.getActiveNetwork();
-            NetworkCapabilities nc = cm.getNetworkCapabilities(network);
-            return nc != null && nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
-        }
+        Network network = cm.getActiveNetwork();
+        NetworkCapabilities nc = cm.getNetworkCapabilities(network);
+        return nc != null && nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
     }
 
     @Override
     public boolean isDataOn() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        if (Build.VERSION.SDK_INT <= 23) {
-            return (activeNetwork != null && activeNetwork.isConnected());
-        } else {
-            Network network = cm.getActiveNetwork();
-            NetworkCapabilities nc = cm.getNetworkCapabilities(network);
-            return nc != null && nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR);
-        }
+        Network network = cm.getActiveNetwork();
+        NetworkCapabilities nc = cm.getNetworkCapabilities(network);
+        return nc != null && nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR);
+    }
+
+    @Override
+    public void openPlayStore(String name) {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.marcosmiranda." + name)));
     }
 }

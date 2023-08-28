@@ -19,7 +19,7 @@ public class Constants {
     // main menu screen stuff
     static final int BUTTON_WIDTH = 200;
     static final int BUTTON_HEIGHT = 70;
-    static final int LOGO_X = 140;
+    static final int LOGO_X = 80;
     static final int LOGO_Y = 25;
     static final int MAIN_MENU_BUTTON_X = 535;
     static final int EXIT_BUTTON_Y = 30;
@@ -55,7 +55,7 @@ public class Constants {
     // goodie stuff
     static final int SPEEDUP_DELAY = 15;
     static final double GOODIE_SPAWN_DELAY = 1.5;
-    static final double GOODIE_SPAWN_DELAY_MENU = 3.5;
+    static final double GOODIE_SPAWN_DELAY_MENU = 1;
     static final double GOODIE_SPAWN_DELAY_SUM = 0.125;
     static final int GOODIE_FALLING_SPEED = 2;
     static final int GOODIE_MAX_FALLING_SPEED = 12;

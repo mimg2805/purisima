@@ -5,4 +5,5 @@ public interface AdsController {
     void hideBannerAd();
     boolean isWifiOn();
     boolean isDataOn();
+    void openPlayStore(String name);
 }

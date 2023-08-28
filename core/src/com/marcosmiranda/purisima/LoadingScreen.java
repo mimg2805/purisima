@@ -1,6 +1,7 @@
 package com.marcosmiranda.purisima;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -45,8 +46,8 @@ class LoadingScreen implements Screen {
         skin = new Skin();
         stage = new Stage(new StretchViewport(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT));
         Gdx.input.setInputProcessor(stage);
-        Gdx.input.setCatchBackKey(true);
-        Gdx.input.setCatchMenuKey(true);
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
+        Gdx.input.setCatchKey(Input.Keys.MENU, true);
 
         // set the loaders for the generator and the fonts themselves
         final FileHandleResolver resolver = new InternalFileHandleResolver();
@@ -78,17 +79,22 @@ class LoadingScreen implements Screen {
         //createFonts(assets, "comic", 48, borderWidth, borderColor);
 
         // Load all of the needed resources
-        assets.load("purisima.png", Texture.class);
+        assets.load("images/purisima.png", Texture.class);
+        assets.load("images/seniasnicas.png", Texture.class);
+        assets.load("images/cursoestadisticabasica.png", Texture.class);
+        assets.load("images/nicaroadrage.png", Texture.class);
         assets.load("bg/bg.png", Texture.class);
 
         assets.load("icons/arrow-right.png", Texture.class);
         assets.load("icons/check.png", Texture.class);
         assets.load("icons/clock.png", Texture.class);
         assets.load("icons/cog.png", Texture.class);
+        assets.load("icons/circle_plus.png", Texture.class);
         assets.load("icons/exit.png", Texture.class);
         assets.load("icons/help.png", Texture.class);
         assets.load("icons/pause_button.png", Texture.class);
         assets.load("icons/play.png", Texture.class);
+        assets.load("icons/plus.png", Texture.class);
         assets.load("icons/sad_yellow.png", Texture.class);
         assets.load("icons/save.png", Texture.class);
         assets.load("icons/star_black.png", Texture.class);
@@ -151,11 +157,12 @@ class LoadingScreen implements Screen {
         } else {
             prefs = Gdx.app.getPreferences("purisima");
             String playerName = prefs.getString("playerName", "");
-            if (playerName.equals(""))
+            if (playerName.equals("")) {
                 game.setScreen(new NewGameScreen(game));
-            else
+            } else {
                 game.setScreen(new MainMenuScreen(game));
-            //game.setScreen(new SoundTest(game));
+                // game.setScreen(new SoundTest(game));
+            }
         }
     }
 
