@@ -94,7 +94,7 @@ class GameScreen implements Screen {
 
     GameScreen(final Purisima purisima) {
         game = purisima;
-        game.adsController.hideBannerAd();
+        // game.adsController.hideBannerAd();
         game.state = GameState.RUNNING;
         shapeRenderer = new ShapeRenderer();
 
@@ -233,7 +233,8 @@ class GameScreen implements Screen {
                 if (resume) resume();
                 else {
                     game.state = GameState.MENU;
-                    if (game.adsController.isWifiOn() || game.adsController.isDataOn()) game.adsController.showBannerAd();
+                    // if (game.adsController.isWifiOn() || game.adsController.isDataOn()) game.adsController.showBannerAd();
+                    game.androidController.showInterstitial();
                     game.setScreen(new MainMenuScreen(game));
                 }
             }

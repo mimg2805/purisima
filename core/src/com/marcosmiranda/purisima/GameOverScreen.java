@@ -46,7 +46,7 @@ class GameOverScreen implements Screen {
     GameOverScreen(final Purisima purisima, final int gameScore) {
         // Store the passed game instance for later use
         game = purisima;
-        if (game.adsController.isWifiOn() || game.adsController.isDataOn()) game.adsController.showBannerAd();
+        // if (game.adsController.isWifiOn() || game.adsController.isDataOn()) game.adsController.showBannerAd();
         game.state = GameState.GAMEOVER;
         score = gameScore;
         gameOverSound = Gdx.audio.newMusic(Gdx.files.internal("sound/gameover.wav"));
@@ -149,6 +149,7 @@ class GameOverScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 if (gameOverSound.isPlaying()) gameOverSound.stop();
                 dispose();
+                game.androidController.showInterstitial();
                 game.setScreen(new MainMenuScreen(game));
             }
         });

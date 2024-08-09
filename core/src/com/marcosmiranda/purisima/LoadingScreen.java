@@ -40,7 +40,7 @@ class LoadingScreen implements Screen {
         setBackColor(Constants.BACK_COLOR);
 
         // Show ads, if there's WiFi
-        if (game.adsController.isWifiOn() || game.adsController.isDataOn()) game.adsController.showBannerAd();
+        // if (game.adsController.isWifiOn() || game.adsController.isDataOn()) game.adsController.showBannerAd();
 
         // Create the appropiate objects for drawing
         skin = new Skin();

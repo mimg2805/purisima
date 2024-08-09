@@ -13,10 +13,10 @@ public class Purisima extends Game {
     OrthographicCamera camera;
     GameState state;
     Music music;
-    AdsController adsController;
+    AndroidController androidController;
 
-    public Purisima(AdsController adsController){
-        this.adsController = adsController;
+    public Purisima(AndroidController androidController){
+        this.androidController = androidController;
     }
 
     @Override
