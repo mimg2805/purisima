@@ -119,8 +119,8 @@ class GameScreen implements Screen {
         final Skin skin = new Skin();
         stage = new Stage(new StretchViewport(WINDOW_WIDTH, WINDOW_HEIGHT));
         Gdx.input.setInputProcessor(stage);
-        Gdx.input.setCatchBackKey(true);
-        Gdx.input.setCatchMenuKey(true);
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
+        Gdx.input.setCatchKey(Input.Keys.MENU, true);
 
         // Add a white pixmap to the skin
         final Pixmap pixmap = new Pixmap(10, 10, Pixmap.Format.RGBA8888);
@@ -148,8 +148,8 @@ class GameScreen implements Screen {
         musicEnabled = prefs.getBoolean("music", true);
 
         pouch = new Pouch(game.assets);
-        goodies = new Array<Goodie>();
-        messages = new Array<PopUpString>();
+        goodies = new Array<>();
+        messages = new Array<>();
         goodiePool = new Pool<Goodie>() {
             @Override
             protected Goodie newObject() {
@@ -253,7 +253,7 @@ class GameScreen implements Screen {
                 explosionFrames[index++] = splitExplosionSheet[i][j];
             }
         }
-        explosionAnimation = new Animation<TextureRegion>(0.025f, explosionFrames);
+        explosionAnimation = new Animation<>(0.025f, explosionFrames);
         explosionAnimation.setPlayMode(Animation.PlayMode.NORMAL);
         animationTime = 0f;
 
@@ -333,7 +333,7 @@ class GameScreen implements Screen {
 
                 // Clear inactive goodies
                 if (goodies.size > 0) {
-                    for (int i = goodies.size; i <= 0; i--) {
+                    for (int i = goodies.size; i == 0; i--) {
                         Goodie goodie = goodies.get(i);
                         if (!goodie.active) {
                             goodies.removeIndex(i);
@@ -344,7 +344,7 @@ class GameScreen implements Screen {
 
                 // Clear inactive messages
                 if (messages.size > 0) {
-                    for (int i = messages.size; i <= 0; i--) {
+                    for (int i = messages.size; i == 0; i--) {
                         PopUpString message = messages.get(i);
                         if (!message.active) {
                             messages.removeIndex(i);

@@ -1,6 +1,7 @@
 package com.marcosmiranda.purisima;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -68,6 +69,8 @@ class OptionsScreen implements Screen {
         skin = new Skin();
         stage = new Stage(new StretchViewport(WINDOW_WIDTH, WINDOW_HEIGHT));
         Gdx.input.setInputProcessor(stage);
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
+        Gdx.input.setCatchKey(Input.Keys.MENU, true);
 
         // Add a white pixmap to the skin
         final Pixmap pixmap = new Pixmap(10, 10, Pixmap.Format.RGBA8888);
@@ -184,7 +187,7 @@ class OptionsScreen implements Screen {
         saveBtn.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 playerName = playerNameTxtField.getText();
-                if (playerName.equals("")) {
+                if (playerName.isEmpty()) {
                     resultLbl.setText("ERROR: El campo no puede estar vacío.");
                     resultLbl.setColor(Color.RED);
                     resultLbl.setVisible(true);
@@ -205,7 +208,7 @@ class OptionsScreen implements Screen {
         hiScoreTxtLbl.setPosition(50, 180);
         stage.addActor(hiScoreTxtLbl);
 
-        final Label hiScoreLbl = new Label("" + hiScore + "", skin, "options");
+        final Label hiScoreLbl = new Label(String.valueOf(hiScore), skin, "options");
         hiScoreLbl.setPosition(270, 180);
         stage.addActor(hiScoreLbl);
 
@@ -217,7 +220,7 @@ class OptionsScreen implements Screen {
         eraseBtn.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 hiScore = 0;
-                hiScoreLbl.setText("" + hiScore + "");
+                hiScoreLbl.setText(String.valueOf(hiScore));
                 prefs.putInteger("hiScore", hiScore);
                 prefs.flush();
             }
@@ -259,7 +262,7 @@ class OptionsScreen implements Screen {
         volumeTxtLbl.setVisible(false);
         stage.addActor(volumeTxtLbl);
 
-        final Label volumeLbl = new Label("" + volume + "", skin, "options");
+        final Label volumeLbl = new Label(String.valueOf(volume), skin, "options");
         volumeLbl.setPosition(280, 180);
         volumeLbl.setVisible(false);
         stage.addActor(volumeLbl);
@@ -276,7 +279,7 @@ class OptionsScreen implements Screen {
                 if (volume > 0) {
                     volume -= 10;
                     volumeUpdate(volume);
-                    volumeLbl.setText("" + volume + "");
+                    volumeLbl.setText(String.valueOf(volume));
                 }
             }
         });
@@ -292,7 +295,7 @@ class OptionsScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 volume = (int) volumeSld.getValue();
                 menuMusic.setVolume(volume / VOLUME_DIVIDER);
-                volumeLbl.setText("" + volume + "");
+                volumeLbl.setText(String.valueOf(volume));
                 prefs.putInteger("volume", volume);
                 prefs.flush();
             }
@@ -312,7 +315,7 @@ class OptionsScreen implements Screen {
                 if (volume < 100) {
                     volume += 10;
                     volumeUpdate(volume);
-                    volumeLbl.setText("" + volume + "");
+                    volumeLbl.setText(String.valueOf(volume));
                 }
             }
         });
@@ -408,8 +411,6 @@ class OptionsScreen implements Screen {
 
     @Override
     public void show() {
-        Gdx.input.setCatchBackKey(true);
-        Gdx.input.setCatchMenuKey(true);
     }
 
     @Override

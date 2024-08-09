@@ -157,7 +157,7 @@ class LoadingScreen implements Screen {
         } else {
             prefs = Gdx.app.getPreferences("purisima");
             String playerName = prefs.getString("playerName", "");
-            if (playerName.equals("")) {
+            if (playerName.isEmpty()) {
                 game.setScreen(new NewGameScreen(game));
             } else {
                 game.setScreen(new MainMenuScreen(game));

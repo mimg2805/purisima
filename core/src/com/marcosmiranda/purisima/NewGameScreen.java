@@ -1,6 +1,7 @@
 package com.marcosmiranda.purisima;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -61,6 +62,8 @@ class NewGameScreen implements Screen {
         skin = new Skin();
         stage = new Stage(new StretchViewport(WINDOW_WIDTH, WINDOW_HEIGHT));
         Gdx.input.setInputProcessor(stage);
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
+        Gdx.input.setCatchKey(Input.Keys.MENU, true);
 
         // Add a white pixmap to the skin
         Pixmap pixmap = new Pixmap(10, 10, Pixmap.Format.RGBA8888);
@@ -160,7 +163,7 @@ class NewGameScreen implements Screen {
         nextButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 playerName = playerNameTextField.getText();
-                if (playerName.equals("")) {
+                if (playerName.isEmpty()) {
                     errorLabel.setVisible(true);
                 } else {
                     prefs.putString("playerName", playerName);
@@ -188,8 +191,6 @@ class NewGameScreen implements Screen {
 
     @Override
     public void show() {
-        Gdx.input.setCatchBackKey(true);
-        Gdx.input.setCatchMenuKey(true);
     }
 
     @Override

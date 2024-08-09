@@ -105,7 +105,6 @@ class MainMenuScreen implements Screen {
         skin.add("exitBtnStyle", exitBtnStyle);
 
         // Create the buttons
-        int buttonsRow1Y = 300;
         Label playBtnLbl = new Label(" JUGAR ", skin, "default");
         Image playBtnIcon = new Image((game.assets.get("icons/play.png", Texture.class)));
         ImageTextButton playBtn = new ImageTextButton(null, skin, "playBtnStyle");
@@ -137,7 +136,6 @@ class MainMenuScreen implements Screen {
         });
         stage.addActor(optionsBtn);
 
-        int buttonsRow2Y = 200;
         Label helpBtnLbl = new Label(" AYUDA ", skin, "default");
         Image helpBtnIcon = new Image((game.assets.get("icons/help.png", Texture.class)));
         ImageTextButton helpBtn = new ImageTextButton(null, skin, "helpBtnStyle");
@@ -167,7 +165,6 @@ class MainMenuScreen implements Screen {
         });
         stage.addActor(moreAppsBtn);
 
-        int buttonsRow3Y = 50;
         Label exitBtnLbl = new Label(" SALIR ", skin, "default");
         Image exitBtnIcon = new Image((game.assets.get("icons/exit.png", Texture.class)));
         ImageTextButton exitBtn = new ImageTextButton(null, skin, "exitBtnStyle");
@@ -266,6 +263,7 @@ class MainMenuScreen implements Screen {
     @Override
     public void dispose() {
         prefs.flush();
+        goodies.clear();
         goodiePool.clear();
         stage.dispose();
         skin.dispose();

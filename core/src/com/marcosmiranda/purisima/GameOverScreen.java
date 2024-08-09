@@ -1,6 +1,7 @@
 package com.marcosmiranda.purisima;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -59,8 +60,8 @@ class GameOverScreen implements Screen {
         skin = new Skin();
         stage = new Stage(new StretchViewport(WINDOW_WIDTH, WINDOW_HEIGHT));
         Gdx.input.setInputProcessor(stage);
-        Gdx.input.setCatchBackKey(true);
-        Gdx.input.setCatchMenuKey(true);
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
+        Gdx.input.setCatchKey(Input.Keys.MENU, true);
 
         // Get fonts from the asset manager
         BitmapFont arial16 = game.assets.get("arial16.ttf", BitmapFont.class);
