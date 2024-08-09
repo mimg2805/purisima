@@ -162,8 +162,7 @@ class MainMenuScreen implements Screen {
         moreAppsBtn.setPosition(Constants.MAIN_MENU_BUTTON_X, 95);
         moreAppsBtn.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                game.setScreen(new MoreAppsScreen(game));
+                game.androidController.openPlayStore();
             }
         });
         stage.addActor(moreAppsBtn);
