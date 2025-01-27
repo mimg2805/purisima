@@ -1,35 +1,5 @@
 package com.marcosmiranda.purisima;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Pool;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-
-import java.util.Random;
-
 import static com.marcosmiranda.purisima.Constants.DEFAULT_VOLUME;
 import static com.marcosmiranda.purisima.Constants.DIALOG_BUTTON_HEIGHT;
 import static com.marcosmiranda.purisima.Constants.DIALOG_BUTTON_WIDTH;
@@ -65,6 +35,43 @@ import static com.marcosmiranda.purisima.Constants.WINDOW_HEIGHT;
 import static com.marcosmiranda.purisima.Constants.WINDOW_WIDTH;
 import static com.marcosmiranda.purisima.Utility.clear;
 import static com.marcosmiranda.purisima.Utility.selectMusic;
+
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.marcosmiranda.purisima.GameOverScreen;
+import com.marcosmiranda.purisima.GameState;
+import com.marcosmiranda.purisima.MainMenuScreen;
+import com.marcosmiranda.purisima.PopUpString;
+import com.marcosmiranda.purisima.Pouch;
+import com.marcosmiranda.purisima.Purisima;
+
+import java.util.Random;
 
 class GameScreen implements Screen {
     private final Purisima game;
@@ -191,7 +198,7 @@ class GameScreen implements Screen {
         pauseButton.setSize(PAUSE_BUTTON_WIDTH, PAUSE_BUTTON_HEIGHT);
         pauseButton.setVisible(true);
         pauseButton.addListener(new ChangeListener() {
-            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+            public void changed(ChangeEvent event, Actor actor) {
                 pause();
             }
         });
@@ -233,8 +240,7 @@ class GameScreen implements Screen {
                 if (resume) resume();
                 else {
                     game.state = GameState.MENU;
-                    // if (game.adsController.isWifiOn() || game.adsController.isDataOn()) game.adsController.showBannerAd();
-                    game.androidController.showInterstitial();
+                    if (game.platform == Application.ApplicationType.Android) game.androidController.showInterstitial();
                     game.setScreen(new MainMenuScreen(game));
                 }
             }

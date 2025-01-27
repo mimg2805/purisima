@@ -1,6 +1,7 @@
 package com.marcosmiranda.purisima;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
@@ -16,10 +17,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.marcosmiranda.purisima.Purisima;
+import com.marcosmiranda.purisima.Utility;
 
 public class SoundTest implements Screen {
 
-    private final Purisima game;
+    private final com.marcosmiranda.purisima.Purisima game;
     private Stage stage;
     private Skin skin;
     private int fileIndex;
@@ -169,8 +172,8 @@ public class SoundTest implements Screen {
 
     @Override
     public void show() {
-        Gdx.input.setCatchBackKey(true);
-        Gdx.input.setCatchMenuKey(true);
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
+        Gdx.input.setCatchKey(Input.Keys.MENU, true);
     }
 
     @Override

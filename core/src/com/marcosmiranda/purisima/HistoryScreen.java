@@ -1,5 +1,8 @@
 package com.marcosmiranda.purisima;
 
+import static com.marcosmiranda.purisima.Constants.*;
+import static com.marcosmiranda.purisima.Utility.*;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -17,13 +20,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-
-import static com.marcosmiranda.purisima.Constants.*;
-import static com.marcosmiranda.purisima.Utility.*;
+import com.marcosmiranda.purisima.Purisima;
 
 class HistoryScreen implements Screen {
 
-    private final Purisima game;
+    private final com.marcosmiranda.purisima.Purisima game;
     private final Skin skin;
     private final Stage stage;
 

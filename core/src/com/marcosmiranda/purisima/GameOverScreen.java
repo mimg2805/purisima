@@ -1,5 +1,22 @@
 package com.marcosmiranda.purisima;
 
+import static com.marcosmiranda.purisima.Constants.BACK_COLOR;
+import static com.marcosmiranda.purisima.Constants.BUTTON_HEIGHT;
+import static com.marcosmiranda.purisima.Constants.BUTTON_WIDTH;
+import static com.marcosmiranda.purisima.Constants.DEFAULT_VOLUME;
+import static com.marcosmiranda.purisima.Constants.EXIT_BUTTON_Y;
+import static com.marcosmiranda.purisima.Constants.FRAME_RATE;
+import static com.marcosmiranda.purisima.Constants.MAIN_MENU_BUTTON_X;
+import static com.marcosmiranda.purisima.Constants.NEW_HI_SCORE_BLINK_DELAY;
+import static com.marcosmiranda.purisima.Constants.VOLUME_DIVIDER;
+import static com.marcosmiranda.purisima.Constants.WINDOW_HEIGHT;
+import static com.marcosmiranda.purisima.Constants.WINDOW_HEIGHT_HALF;
+import static com.marcosmiranda.purisima.Constants.WINDOW_WIDTH;
+import static com.marcosmiranda.purisima.Constants.WINDOW_WIDTH_HALF;
+import static com.marcosmiranda.purisima.Utility.clear;
+import static com.marcosmiranda.purisima.Utility.setBackColor;
+
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
@@ -17,22 +34,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-
-import static com.marcosmiranda.purisima.Constants.BACK_COLOR;
-import static com.marcosmiranda.purisima.Constants.BUTTON_HEIGHT;
-import static com.marcosmiranda.purisima.Constants.BUTTON_WIDTH;
-import static com.marcosmiranda.purisima.Constants.DEFAULT_VOLUME;
-import static com.marcosmiranda.purisima.Constants.EXIT_BUTTON_Y;
-import static com.marcosmiranda.purisima.Constants.FRAME_RATE;
-import static com.marcosmiranda.purisima.Constants.MAIN_MENU_BUTTON_X;
-import static com.marcosmiranda.purisima.Constants.NEW_HI_SCORE_BLINK_DELAY;
-import static com.marcosmiranda.purisima.Constants.VOLUME_DIVIDER;
-import static com.marcosmiranda.purisima.Constants.WINDOW_HEIGHT;
-import static com.marcosmiranda.purisima.Constants.WINDOW_HEIGHT_HALF;
-import static com.marcosmiranda.purisima.Constants.WINDOW_WIDTH;
-import static com.marcosmiranda.purisima.Constants.WINDOW_WIDTH_HALF;
-import static com.marcosmiranda.purisima.Utility.clear;
-import static com.marcosmiranda.purisima.Utility.setBackColor;
+import com.marcosmiranda.purisima.GameState;
+import com.marcosmiranda.purisima.Purisima;
 
 class GameOverScreen implements Screen {
 
@@ -150,7 +153,7 @@ class GameOverScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 if (gameOverSound.isPlaying()) gameOverSound.stop();
                 dispose();
-                game.androidController.showInterstitial();
+                if (game.platform == Application.ApplicationType.Android) game.androidController.showInterstitial();
                 game.setScreen(new MainMenuScreen(game));
             }
         });

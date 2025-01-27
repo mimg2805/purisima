@@ -4,14 +4,16 @@ import com.badlogic.gdx.graphics.Color;
 
 public class Constants {
 
+    public static final String PLAY_STORE_URL = "https://play.google.com/store/apps/developer?id=Marcos+I.+Miranda+G.";
+
     static final float FRAME_RATE = 60f;
     static final int DEFAULT_VOLUME = 20;
     static final float VOLUME_DIVIDER = 100f;
     static final int VIBRATE_MILLISECONDS = 400;
 
     // window stuff
-    static final int WINDOW_WIDTH = 800;
-    static final int WINDOW_HEIGHT = 400;
+    public static final int WINDOW_WIDTH = 800;
+    public static final int WINDOW_HEIGHT = 400;
     static final int WINDOW_WIDTH_HALF = WINDOW_WIDTH / 2;
     static final int WINDOW_HEIGHT_HALF = WINDOW_HEIGHT / 2;
     static final Color BACK_COLOR = Color.valueOf("003363");

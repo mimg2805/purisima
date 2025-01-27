@@ -1,5 +1,20 @@
 package com.marcosmiranda.purisima;
 
+import static com.marcosmiranda.purisima.Constants.BACK_COLOR;
+import static com.marcosmiranda.purisima.Constants.BUTTON_HEIGHT;
+import static com.marcosmiranda.purisima.Constants.BUTTON_WIDTH;
+import static com.marcosmiranda.purisima.Constants.CHECKBOX_SIZE;
+import static com.marcosmiranda.purisima.Constants.CURSOR_WIDTH;
+import static com.marcosmiranda.purisima.Constants.DEFAULT_VOLUME;
+import static com.marcosmiranda.purisima.Constants.EXIT_BUTTON_Y;
+import static com.marcosmiranda.purisima.Constants.FRAME_RATE;
+import static com.marcosmiranda.purisima.Constants.MAIN_MENU_BUTTON_X;
+import static com.marcosmiranda.purisima.Constants.TEXTFIELD_PADDING;
+import static com.marcosmiranda.purisima.Constants.WINDOW_HEIGHT;
+import static com.marcosmiranda.purisima.Constants.WINDOW_WIDTH;
+import static com.marcosmiranda.purisima.Utility.clear;
+import static com.marcosmiranda.purisima.Utility.setBackColor;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
@@ -20,25 +35,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-
-import static com.marcosmiranda.purisima.Constants.BACK_COLOR;
-import static com.marcosmiranda.purisima.Constants.BUTTON_HEIGHT;
-import static com.marcosmiranda.purisima.Constants.BUTTON_WIDTH;
-import static com.marcosmiranda.purisima.Constants.CHECKBOX_SIZE;
-import static com.marcosmiranda.purisima.Constants.CURSOR_WIDTH;
-import static com.marcosmiranda.purisima.Constants.DEFAULT_VOLUME;
-import static com.marcosmiranda.purisima.Constants.EXIT_BUTTON_Y;
-import static com.marcosmiranda.purisima.Constants.FRAME_RATE;
-import static com.marcosmiranda.purisima.Constants.MAIN_MENU_BUTTON_X;
-import static com.marcosmiranda.purisima.Constants.TEXTFIELD_PADDING;
-import static com.marcosmiranda.purisima.Constants.WINDOW_HEIGHT;
-import static com.marcosmiranda.purisima.Constants.WINDOW_WIDTH;
-import static com.marcosmiranda.purisima.Utility.clear;
-import static com.marcosmiranda.purisima.Utility.setBackColor;
+import com.marcosmiranda.purisima.Constants;
+import com.marcosmiranda.purisima.Purisima;
 
 class NewGameScreen implements Screen {
 
-    private final Purisima game;
+    private final com.marcosmiranda.purisima.Purisima game;
     private final Stage stage;
     private final Skin skin;
     private final Preferences prefs;

@@ -1,5 +1,9 @@
 package com.marcosmiranda.purisima;
 
+import static com.marcosmiranda.purisima.Utility.clear;
+import static com.marcosmiranda.purisima.Utility.setBackColor;
+
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
@@ -19,9 +23,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-
-import static com.marcosmiranda.purisima.Utility.clear;
-import static com.marcosmiranda.purisima.Utility.setBackColor;
+import com.marcosmiranda.purisima.Constants;
+import com.marcosmiranda.purisima.GameState;
+import com.marcosmiranda.purisima.HelpScreen;
+import com.marcosmiranda.purisima.OptionsScreen;
+import com.marcosmiranda.purisima.Purisima;
+import com.marcosmiranda.purisima.Utility;
 
 class MainMenuScreen implements Screen {
 
@@ -74,31 +81,31 @@ class MainMenuScreen implements Screen {
         fallingSpeed = Constants.GOODIE_FALLING_SPEED_MENU;
 
         // Build the various button styles
-        ImageTextButtonStyle playBtnStyle = new ImageTextButton.ImageTextButtonStyle();
+        ImageTextButtonStyle playBtnStyle = new ImageTextButtonStyle();
         playBtnStyle.up = skin.newDrawable(btnDrawable, Color.LIME);
         playBtnStyle.down = skin.newDrawable(btnDrawable, Color.FOREST);
         playBtnStyle.font = arial16;
         skin.add("playBtnStyle", playBtnStyle);
 
-        ImageTextButtonStyle optionsBtnStyle = new ImageTextButton.ImageTextButtonStyle();
+        ImageTextButtonStyle optionsBtnStyle = new ImageTextButtonStyle();
         optionsBtnStyle.up = skin.newDrawable(btnDrawable, Color.ROYAL);
         optionsBtnStyle.down = skin.newDrawable(btnDrawable, Color.NAVY);
         optionsBtnStyle.font = arial16;
         skin.add("optionsBtnStyle", optionsBtnStyle);
 
-        ImageTextButtonStyle helpBtnStyle = new ImageTextButton.ImageTextButtonStyle();
+        ImageTextButtonStyle helpBtnStyle = new ImageTextButtonStyle();
         helpBtnStyle.up = skin.newDrawable(btnDrawable, Color.VIOLET);
         helpBtnStyle.down = skin.newDrawable(btnDrawable, Color.MAGENTA);
         helpBtnStyle.font = arial16;
         skin.add("helpBtnStyle", helpBtnStyle);
 
-        ImageTextButtonStyle moreAppsBtnStyle = new ImageTextButton.ImageTextButtonStyle();
+        ImageTextButtonStyle moreAppsBtnStyle = new ImageTextButtonStyle();
         moreAppsBtnStyle.up = skin.newDrawable(btnDrawable, Color.LIGHT_GRAY);
         moreAppsBtnStyle.down = skin.newDrawable(btnDrawable, Color.DARK_GRAY);
         moreAppsBtnStyle.font = arial16;
         skin.add("moreAppsBtnStyle", moreAppsBtnStyle);
 
-        ImageTextButtonStyle exitBtnStyle = new ImageTextButton.ImageTextButtonStyle();
+        ImageTextButtonStyle exitBtnStyle = new ImageTextButtonStyle();
         exitBtnStyle.up = skin.newDrawable(btnDrawable, Color.SCARLET);
         exitBtnStyle.down = skin.newDrawable(btnDrawable, Color.FIREBRICK);
         exitBtnStyle.font = arial16;
@@ -160,7 +167,7 @@ class MainMenuScreen implements Screen {
         moreAppsBtn.setPosition(Constants.MAIN_MENU_BUTTON_X, 95);
         moreAppsBtn.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.androidController.openPlayStore();
+                Gdx.net.openURI(Constants.PLAY_STORE_URL);
             }
         });
         stage.addActor(moreAppsBtn);
@@ -183,6 +190,7 @@ class MainMenuScreen implements Screen {
         // choose menu music randomly
         prefs = Gdx.app.getPreferences("purisima");
         boolean musicEnabled = prefs.getBoolean("music", true);
+        if (game.platform == Application.ApplicationType.WebGL) musicEnabled = false;
         int volume = prefs.getInteger("volume", Constants.DEFAULT_VOLUME);
         if (musicEnabled && !game.music.isPlaying()) {
             game.music.stop();

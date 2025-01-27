@@ -1,5 +1,9 @@
 package com.marcosmiranda.purisima;
 
+import static com.marcosmiranda.purisima.Utility.clear;
+import static com.marcosmiranda.purisima.Utility.createFonts;
+import static com.marcosmiranda.purisima.Utility.setBackColor;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
@@ -18,14 +22,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-
-import static com.marcosmiranda.purisima.Utility.clear;
-import static com.marcosmiranda.purisima.Utility.createFonts;
-import static com.marcosmiranda.purisima.Utility.setBackColor;
+import com.marcosmiranda.purisima.Purisima;
 
 class LoadingScreen implements Screen {
 
-    private final Purisima game;
+    private final com.marcosmiranda.purisima.Purisima game;
     private final AssetManager assets;
     private final Stage stage;
     private final Skin skin;

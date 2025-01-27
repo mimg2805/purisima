@@ -9,5 +9,4 @@ public interface AndroidController {
     void showInterstitial();
     boolean isWifiOn();
     boolean isDataOn();
-    void openPlayStore();
 }

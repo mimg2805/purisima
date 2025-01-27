@@ -15,10 +15,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.marcosmiranda.purisima.Constants;
+import com.marcosmiranda.purisima.CreditsScreen;
+import com.marcosmiranda.purisima.HistoryScreen;
+import com.marcosmiranda.purisima.Purisima;
+import com.marcosmiranda.purisima.Utility;
 
 class HelpScreen implements Screen {
 
-    private final Purisima game;
+    private final com.marcosmiranda.purisima.Purisima game;
     private final Skin skin;
     private final Stage stage;
 

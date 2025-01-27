@@ -1,36 +1,26 @@
 package com.marcosmiranda.purisima.android;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.PixelCopy;
 import android.view.View;
 import android.widget.RelativeLayout;
-
 import androidx.annotation.NonNull;
-
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.LoadAdError;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-
-import com.google.android.gms.ads.RequestConfiguration;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+
 import com.marcosmiranda.purisima.AndroidController;
 import com.marcosmiranda.purisima.Purisima;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class AndroidLauncher extends AndroidApplication implements AndroidController {
 
@@ -101,7 +91,9 @@ public class AndroidLauncher extends AndroidApplication implements AndroidContro
     */
 
     private View createGameView(AndroidApplicationConfiguration cfg) {
-        gameView = initializeForView(new Purisima(this), cfg);
+        Purisima purisima = new Purisima();
+        purisima.androidController = this;
+        gameView = initializeForView(purisima, cfg);
         // RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         // params.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
         // params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
@@ -209,10 +201,5 @@ public class AndroidLauncher extends AndroidApplication implements AndroidContro
         Network network = cm.getActiveNetwork();
         NetworkCapabilities nc = cm.getNetworkCapabilities(network);
         return nc != null && nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR);
-    }
-
-    @Override
-    public void openPlayStore() {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=Marcos+I.+Miranda+G.")));
     }
 }

@@ -1,5 +1,11 @@
 package com.marcosmiranda.purisima;
 
+import static com.marcosmiranda.purisima.Constants.POUCH_MOVING_SPEED;
+import static com.marcosmiranda.purisima.Constants.POUCH_MOVING_SPEED_SUM;
+import static com.marcosmiranda.purisima.Constants.WINDOW_HEIGHT;
+import static com.marcosmiranda.purisima.Constants.WINDOW_HEIGHT_HALF;
+import static com.marcosmiranda.purisima.Constants.WINDOW_WIDTH;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -7,12 +13,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-
-import static com.marcosmiranda.purisima.Constants.POUCH_MOVING_SPEED;
-import static com.marcosmiranda.purisima.Constants.POUCH_MOVING_SPEED_SUM;
-import static com.marcosmiranda.purisima.Constants.WINDOW_HEIGHT;
-import static com.marcosmiranda.purisima.Constants.WINDOW_HEIGHT_HALF;
-import static com.marcosmiranda.purisima.Constants.WINDOW_WIDTH;
 
 class Pouch {
 
